@@ -1,6 +1,6 @@
-import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
 
@@ -26,6 +26,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <Counter></Counter>
+        <Users></Users>
         <Person name={nayiok[0]} gf={nayika[0]}></Person>
         <Person name={nayiok[1]} gf={nayika[1]}></Person>
         <Person></Person>
@@ -42,6 +44,8 @@ function App() {
         <Product product={products[1]}></Product>
         <Product product={products[2]}></Product>
         <Product product={products[3]}></Product>
+
+        
 
         <h1 style={style}>My Heading: {(3+5)*2}</h1>
         <p style={{color: 'cyan', backgroundColor: 'black',}}>My first Paragraph {person.name+ " "+ person.job}</p>
@@ -91,4 +95,42 @@ function Product(props) {
     </div>
   )
 }
+
+function Counter(){
+  const [count, setCount] = useState(10);
+  const handleIncrease = () => {
+    const newCount = count+1;
+    setCount(newCount);
+  };
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={() => setCount(count-1)}>Decrease</button>
+      <button onClick={() => setCount(count+1)}>Increase</button>
+    </div>
+  )
+}
+
+function Users(){
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then(data => setUsers(data))
+  }, [])
+
+  return(
+    <div>
+      <ul>
+        {
+          console.log(users)
+        }
+        {
+          users.map(user => <li>{user.name}</li>)
+        }
+      </ul>
+    </div>
+  )
+}
+
 export default App;
